@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.webkit.URLUtil;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
+                    .replace(R.id.settings, new SettingsFragment(findViewById(R.id.isValid)))
                     .commit();
 
         }
@@ -32,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    // TODO : back button
+    // back button
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -43,6 +44,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+        private TextView isValid;
+
+        public SettingsFragment(TextView isValid) {
+            this.isValid = isValid;
+        }
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
@@ -51,13 +58,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key){
-            Log.d("KLEQUETTE", key);
             String url = sharedPreferences.getString(key, "");
-            if(Patterns.WEB_URL.matcher(url).matches()){
-                Log.d("KLEQUETTE", "Valid");
+           // Url valide ou non
+            if(URLUtil.isValidUrl(url)){
+               isValid.setText("URL Valide");
             }
             else {
-                Log.d("KLEQUETTE", "Invalid");
+                isValid.setText("URL Invalide");
             }
         }
     }

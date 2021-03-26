@@ -2,6 +2,7 @@ package fr.univartois.newsreader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -27,20 +28,15 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
 
         }
+        // back button
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    // back button
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
-    }
+
+
 
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -62,9 +58,11 @@ public class SettingsActivity extends AppCompatActivity {
            // Url valide ou non
             if(URLUtil.isValidUrl(url)){
                isValid.setText("URL Valide");
+               isValid.setTextColor(Color.parseColor("#6B8E23"));
             }
             else {
                 isValid.setText("URL Invalide");
+                isValid.setTextColor(Color.parseColor("#FF0000"));
             }
         }
     }
